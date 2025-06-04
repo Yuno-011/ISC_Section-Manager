@@ -1,0 +1,74 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "maps/test.tmx",
+    "expandedProjectPaths": [
+        "maps",
+        "tilesets",
+        "."
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "C:/Users/akash/Desktop/HES/1st-year/Projects/gdx2d-1.2.3-students/gdx2d-demoDesktop/data/maps/desert.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 844,
+                "y": 700.6666666666665
+            }
+        },
+        "C:/Users/akash/Desktop/HES/1st-year/Projects/gdx2d-1.2.3-students/gdx2d-demoDesktop/data/maps/desert.tmx#Desert": {
+            "scaleInDock": 1
+        },
+        "maps/test.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 757.3333333333333,
+                "y": 459
+            }
+        },
+        "tilesets/floor1.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/floor2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tilesets/furniture.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "tilesets/wall.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "C:/Users/akash/Desktop/HES/1st-year/Courses/Prog/ProgOO/ISC_Section-Manager/ISC_Section-Manager/data/map_data/tilesets/source",
+    "map.height": 30,
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "maps/test.tmx",
+        "tilesets/floor1.tsx",
+        "tilesets/floor2.tsx",
+        "tilesets/furniture.tsx",
+        "tilesets/wall.tsx"
+    ],
+    "project": "ISC_Section-Manager.tiled-project",
+    "recentFiles": [
+        "tilesets/wall.tsx",
+        "tilesets/furniture.tsx",
+        "tilesets/floor2.tsx",
+        "tilesets/floor1.tsx",
+        "maps/test.tmx",
+        "C:/Users/akash/Desktop/HES/1st-year/Projects/gdx2d-1.2.3-students/gdx2d-demoDesktop/data/maps/desert.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 48,
+        "width": 48
+    }
+}
