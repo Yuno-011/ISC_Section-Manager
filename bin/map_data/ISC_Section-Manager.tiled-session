@@ -3,11 +3,11 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tilesets/furniture.tsx",
+    "activeFile": "maps/test.tmx",
     "expandedProjectPaths": [
         ".",
-        "tilesets",
-        "maps"
+        "maps",
+        "tilesets"
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -28,11 +28,11 @@
             "scaleInEditor": 1
         },
         "maps/test.tmx": {
-            "scale": 0.75,
-            "selectedLayer": 0,
+            "scale": 0.5,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 590.6666666666666,
-                "y": 378
+                "x": 458,
+                "y": 483
             }
         },
         "tilesets/floor1.tsx": {
@@ -65,11 +65,11 @@
     "project": "ISC_Section-Manager.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "maps/test.tmx",
-        "tilesets/floor1.tsx",
-        "tilesets/floor2.tsx",
         "tilesets/wall.tsx",
         "tilesets/furniture.tsx",
+        "tilesets/floor2.tsx",
+        "tilesets/floor1.tsx",
+        "maps/test.tmx",
         "C:/Users/akash/Desktop/HES/1st-year/Projects/gdx2d-1.2.3-students/gdx2d-demoDesktop/data/maps/desert.tmx",
         "C:/Users/akash/Desktop/HES/1st-year/Courses/Prog/ProgOO/ISC_Section-Manager/ISC_Section-Manager/data/images/mudry.tsx"
     ],

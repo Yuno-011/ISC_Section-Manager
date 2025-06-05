@@ -1,3 +1,5 @@
+package characters
+
 import ch.hevs.gdx2d.components.bitmaps.Spritesheet
 import ch.hevs.gdx2d.lib.GdxGraphics
 import ch.hevs.gdx2d.lib.interfaces.DrawableObject
@@ -9,28 +11,23 @@ object Direction extends Enumeration {
   val UP, DOWN, RIGHT, LEFT, NULL = Value
 }
 
-class Hero(initialPos: Vector2) extends DrawableObject {
+class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends DrawableObject {
 
   private var textureY = 0
+  private var currentFrame = 0
+  private val FRAME_TIME = 0.1f // Duration of each frime
 
   private var dt: Double = 0
-  private var currentFrame = 0
   private val nFrames = 4
-  private val SPRITE_WIDTH, SPRITE_HEIGHT = 48
-  private val FRAME_TIME = 0.1f // Duration of each frime
-  private val SPEED = 1.5
 
+  protected var SPEED: Double = 1
   private var lastPosition: Vector2 = initialPos
   private var newPosition: Vector2 = initialPos
   private var position: Vector2 = initialPos
-
-  private var ss: Spritesheet = new Spritesheet("data/images/mudry_sheet48.png", SPRITE_WIDTH, SPRITE_HEIGHT)
-
   private var move = false
 
-  def this(x: Int, y: Int) = {
-    this(new Vector2(x*48, y*48))
-  }
+  private val SPRITE_WIDTH, SPRITE_HEIGHT = 48
+  private val ss: Spritesheet = new Spritesheet(spritesheetPath, SPRITE_WIDTH, SPRITE_HEIGHT)
 
   /**
    * Getter for the hero's position (Vector2)
@@ -43,6 +40,10 @@ class Hero(initialPos: Vector2) extends DrawableObject {
    * @return Boolean - true if the hero is currently moving
    */
   def isMoving: Boolean = move
+
+  def isAlive: Boolean = {
+    true
+  }
 
   /**
    * Animates the hero's frames and movement
