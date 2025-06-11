@@ -60,6 +60,7 @@ class Game extends PortableApplication(1080, 1080) {
     }
 
     atkManager = new AttackManager(hero)
+    musManager.playMusic("data/music/background.mp3")
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -73,7 +74,7 @@ class Game extends PortableApplication(1080, 1080) {
     atkManager.handleHeroAttack(npcs, keyStatus)
     // Remove dead NPCs and add make them respawn
     npcs = npcs.filter(npc => npc.isAlive)
-    if(npcs.length < 11) musManager.play(musManager.getRandomKillPhrase)
+    if(npcs.length < 11) musManager.playSound(musManager.getRandomKillPhrase)
     while(npcs.length < 11) {
       if(!npcs.exists(npc => npc.isInstanceOf[Teacher])) {
         if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
@@ -85,7 +86,7 @@ class Game extends PortableApplication(1080, 1080) {
       }
     }
 
-    // zoom and camerad
+    // zoom and camera
     g.zoom(ZOOM)
     g.moveCamera(hero.getPosition.x, hero.getPosition.y, mapManager.getWorldWidth, mapManager.getWorldHeight)
     tiledMapRenderer.setView(g.getCamera)
@@ -130,6 +131,11 @@ class Game extends PortableApplication(1080, 1080) {
   override def onKeyDown(keycode: Int): Unit = {
     super.onKeyDown(keycode)
     keyStatus.put(keycode, true)
+  }
+
+  override def onDispose(): Unit = {
+    super.onDispose()
+    musManager.dispose()
   }
 }
 

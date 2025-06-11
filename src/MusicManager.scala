@@ -1,4 +1,4 @@
-import ch.hevs.gdx2d.components.audio.MusicPlayer
+import ch.hevs.gdx2d.components.audio.{MusicPlayer, SoundSample}
 
 import java.io.File
 import scala.collection.mutable.ArrayBuffer
@@ -8,13 +8,23 @@ import scala.util.Random
 
 class MusicManager {
   private var songsToPlay: ArrayBuffer[String] = ArrayBuffer()
-  private var mp: MusicPlayer = null
+  private var soundPlayer: MusicPlayer = null
+  private var musicPlayer: MusicPlayer = null
 
-  def play(soundPath: String): Unit = {
+  def playSound(soundPath: String): Unit = {
     songsToPlay += soundPath
-    if(mp == null || !mp.isPlaying) playNextAudioNow()
+    if(soundPlayer == null || !soundPlayer.isPlaying) playNextSoundNow()
     else waitUntilSoundFinished()
   }
+
+  def playMusic(musicPath: String): Unit = {
+    if(musicPlayer == null || !musicPlayer.isLooping) {
+      musicPlayer = new MusicPlayer(musicPath)
+      musicPlayer.loop()
+    }
+  }
+
+  def stopMusic(): Unit = musicPlayer.stop()
 
   def getRandomKillPhrase: String = {
     var filename: String = ""
@@ -26,18 +36,24 @@ class MusicManager {
     filename
   }
 
+  def dispose(): Unit = {
+    stopMusic()
+    soundPlayer.dispose()
+    musicPlayer.dispose()
+  }
+
   private def waitUntilSoundFinished(): Unit = {
     Future {
       Thread.sleep(500)
-      if(mp.isPlaying) waitUntilSoundFinished()
-      else playNextAudioNow()
+      if(soundPlayer.isPlaying) waitUntilSoundFinished()
+      else playNextSoundNow()
     }
   }
 
-  private def playNextAudioNow(): Unit = {
+  private def playNextSoundNow(): Unit = {
     if(songsToPlay.nonEmpty) {
-      mp = new MusicPlayer(songsToPlay.head)
-      mp.play()
+      soundPlayer = new MusicPlayer(songsToPlay.head)
+      soundPlayer.play()
       songsToPlay = songsToPlay.tail
     }
   }
