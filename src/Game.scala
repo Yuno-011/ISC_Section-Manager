@@ -1,3 +1,4 @@
+import ch.hevs.gdx2d.components.audio.MusicPlayer
 import ch.hevs.gdx2d.desktop.PortableApplication
 import ch.hevs.gdx2d.lib.GdxGraphics
 import characters.{Evil, Hero, NPC, Student, Teacher}
@@ -26,6 +27,8 @@ class Game extends PortableApplication(1080, 1080) {
 
   private var hero: Hero = null
   private var npcs: ArrayBuffer[NPC] = ArrayBuffer()
+
+  private var music: MusicPlayer = _
 
   private val keyStatus: util.Map[Integer, Boolean] = new util.TreeMap[Integer, Boolean]
 
@@ -95,6 +98,9 @@ class Game extends PortableApplication(1080, 1080) {
     }
     // Finish drawing
     spriteBatch.end()
+
+    music = new MusicPlayer("data/music/theme_song.mp3")
+    music.loop()
   }
 
   // Manage keyboard events
@@ -106,6 +112,11 @@ class Game extends PortableApplication(1080, 1080) {
   override def onKeyDown(keycode: Int): Unit = {
     super.onKeyDown(keycode)
     keyStatus.put(keycode, true)
+  }
+
+  override def onDispose(): Unit = {
+    super.onDispose()
+    if (music != null) music.dispose()
   }
 }
 
