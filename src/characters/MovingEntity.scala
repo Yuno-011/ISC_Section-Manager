@@ -26,7 +26,7 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
   protected var SPEED: Double = 1
   protected var MAX_HEALTH: Int = 1
   private var health: Int = MAX_HEALTH
-  private val ATTACK_RANGE: Int = 1
+  protected var ATTACK_RANGE: Int = 1
 
   private var lastPosition: Vector2 = initialPos
   private var newPosition: Vector2 = initialPos
@@ -44,11 +44,9 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
    */
   def getPosition: Vector2 = position
 
-  def getLastPosition: Vector2 = lastPosition
-
   def getAttackRange: Int = ATTACK_RANGE
 
-  def getHealthPercent: Double = health / MAX_HEALTH
+  def getHealthPercent: Float = health.toFloat / MAX_HEALTH.toFloat
 
   /**
    * Getter for movement state of the hero

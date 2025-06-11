@@ -38,8 +38,8 @@ class MusicManager {
 
   def dispose(): Unit = {
     stopMusic()
-    soundPlayer.dispose()
-    musicPlayer.dispose()
+    if(soundPlayer != null) soundPlayer.dispose()
+    if(musicPlayer != null) musicPlayer.dispose()
   }
 
   private def waitUntilSoundFinished(): Unit = {

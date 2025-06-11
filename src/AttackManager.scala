@@ -1,11 +1,8 @@
-import ch.hevs.gdx2d.components.audio.MusicPlayer
-import characters.{Hero, NPC}
+import characters.{Evil, Hero, NPC}
 import com.badlogic.gdx.Input
 
-import java.io.File
 import java.util
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 
 class AttackManager(hero: Hero) {
 
@@ -24,6 +21,26 @@ class AttackManager(hero: Hero) {
         }
       }
     }
+  }
+
+  def handleNPCAttack(npcs: ArrayBuffer[NPC]): Boolean = {
+    if(!hero.isAlive) return true
+    for(npc <- npcs.filter(n => n.isInstanceOf[Evil])) {
+      // Does NPC has to attck now ?
+      if(!npc.isMoving &&
+        (Math.abs(npc.getPosition.x - hero.getPosition.x) <= npc.getAttackRange*48
+        && Math.abs(npc.getPosition.y - hero.getPosition.y) <= npc.getAttackRange*48)) npc.attack()
+      // If he's attacking
+      if(npc.isAttacking) {
+        if(Math.abs(npc.getPosition.x - hero.getPosition.x) <= npc.getAttackRange*48
+          && Math.abs(npc.getPosition.y - hero.getPosition.y) <= npc.getAttackRange*48
+          && !hero.isInvincible) {
+          hero.takeDamage(5)
+          if(!hero.isAlive) return true // Handle hero death
+        }
+      }
+    }
+    false
   }
 
 }

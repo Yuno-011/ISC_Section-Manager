@@ -31,12 +31,12 @@ class Game extends PortableApplication(1080, 1080) {
   private var npcs: ArrayBuffer[NPC] = ArrayBuffer()
 
   private val keyStatus: util.Map[Integer, Boolean] = new util.TreeMap[Integer, Boolean]
+  private var gameOver: Boolean = false
 
   override def onInit(): Unit = {
     setTitle("ISC: Section Manager")
     screenWidth = getWindowWidth
     screenHeight = getWindowHeight
-
 
     tiledMap = new TmxMapLoader().load("data/map_data/maps/classroom.tmx")
     spriteBatch = new SpriteBatch()
@@ -50,7 +50,7 @@ class Game extends PortableApplication(1080, 1080) {
     mapManager = new MapManager(tiledLayers)
     movManager = new MovementManager(mapManager)
 
-    hero = new Hero(0,0)
+    hero = new Hero(19,13)
     if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
     else npcs += new Teacher(10, 14) with Evil
     for(_ <- 0 until 10) {
@@ -66,23 +66,27 @@ class Game extends PortableApplication(1080, 1080) {
   override def onGraphicRender(g: GdxGraphics): Unit = {
     g.clear()
 
-    // Manage hero movement
-    movManager.manageHero(hero, keyStatus)
-    movManager.manageNPCs(npcs, hero, Gdx.graphics.getDeltaTime)
+    if(!gameOver) {
+      // Manage hero movement
+      movManager.manageHero(hero, keyStatus)
+      movManager.manageNPCs(npcs, hero, Gdx.graphics.getDeltaTime)
 
-    // Manage attacks
-    atkManager.handleHeroAttack(npcs, keyStatus)
-    // Remove dead NPCs and add make them respawn
-    npcs = npcs.filter(npc => npc.isAlive)
-    if(npcs.length < 11) musManager.playSound(musManager.getRandomKillPhrase)
-    while(npcs.length < 11) {
-      if(!npcs.exists(npc => npc.isInstanceOf[Teacher])) {
-        if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
-        else npcs += new Teacher(10, 14) with Evil
-      } else {
-        val pos: Vector2 = mapManager.getRandomPos
-        if(Math.random() >= 0.5) npcs += new Student(pos)
-        else npcs += new Student(pos) with Evil
+      // Manage attacks
+      atkManager.handleHeroAttack(npcs, keyStatus)
+      gameOver = atkManager.handleNPCAttack(npcs)
+
+      // Remove dead NPCs and add make them respawn
+      npcs = npcs.filter(npc => npc.isAlive)
+      if(npcs.length < 11) musManager.playSound(musManager.getRandomKillPhrase)
+      while(npcs.length < 11) {
+        if(!npcs.exists(npc => npc.isInstanceOf[Teacher])) {
+          if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
+          else npcs += new Teacher(10, 14) with Evil
+        } else {
+          val pos: Vector2 = mapManager.getRandomPos
+          if(Math.random() >= 0.5) npcs += new Student(pos)
+          else npcs += new Student(pos) with Evil
+        }
       }
     }
 
@@ -116,10 +120,11 @@ class Game extends PortableApplication(1080, 1080) {
     // Draw screen-fixed UI text in top-left
     val screenPos = new Vector3(0, 0, 0)  // camera based in the top left corner
     val worldPos = g.getCamera.unproject(screenPos)
-
-    //g.drawString(worldPos.x, worldPos.y, "Top Left Info")
     g.drawTransformedPicture(worldPos.x+100, worldPos.y-23, 0, 100, 23, new BitmapImage("data/images/hp-bar.png"))
-    g.drawFilledRectangle(worldPos.x+118, worldPos.y-23, 153, 25, 0, Color.SCARLET)
+    val width: Float = hero.getHealthPercent*153
+    g.drawFilledRectangle(worldPos.x+41.5f+width/2, worldPos.y-10.5f-25/2, width, 25, 0, Color.SCARLET)
+
+    if(gameOver) g.drawString(worldPos.x+220, worldPos.y-220, "GAME OVER")
   }
 
   // Manage keyboard events

@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2
 class Hero(initialPos: Vector2) extends MovingEntity("data/images/mudry_sheet48.png", initialPos) {
   SPEED = 1.5
   MAX_HEALTH = 20
+  ATTACK_RANGE = 2
   private var _score: Int = 0
 
   heal()
