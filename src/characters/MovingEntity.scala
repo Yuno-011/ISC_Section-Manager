@@ -48,6 +48,8 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
 
   def getAttackRange: Int = ATTACK_RANGE
 
+  def getHealthPercent: Double = health / MAX_HEALTH
+
   /**
    * Getter for movement state of the hero
    * @return Boolean - true if the hero is currently moving

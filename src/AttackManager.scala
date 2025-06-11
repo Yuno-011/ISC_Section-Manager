@@ -1,8 +1,11 @@
+import ch.hevs.gdx2d.components.audio.MusicPlayer
 import characters.{Hero, NPC}
 import com.badlogic.gdx.Input
 
+import java.io.File
 import java.util
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 class AttackManager(hero: Hero) {
 
@@ -15,7 +18,9 @@ class AttackManager(hero: Hero) {
           && Math.abs(npc.getPosition.y - hero.getPosition.y) <= hero.getAttackRange*48
           && !npc.isInvincible) {
           npc.takeDamage(5)
-          if(!npc.isAlive) hero.updateScore(npc.killPoints)
+          if(!npc.isAlive) {
+            hero.updateScore(npc.killPoints)
+          }
         }
       }
     }

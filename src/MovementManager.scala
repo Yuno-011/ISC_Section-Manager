@@ -48,43 +48,6 @@ class MovementManager(private val mapManager: MapManager) {
   }
 
   private def findFirstMoveToHero(npc: NPC with Evil, hero: Hero): Unit = {
-
-    /*def heuristicDist(npcPos: Vector2): Float = {
-      val dx = Math.abs(npcPos.x - hero.getPosition.x)
-      val dy = Math.abs(npcPos.y - hero.getPosition.y)
-      dx + dy
-    }
-
-    def neighbors(pos: Vector2): ArrayBuffer[(Direction.Direction, Vector2)] = {
-      val neighborsArr: ArrayBuffer[(Direction.Direction, Vector2)] = ArrayBuffer()
-      for(dir <- Direction.values.filter(dir => dir != Direction.NULL)) {
-        val newPos = dir match {
-          case Direction.RIGHT => new Vector2(pos.x + 48, pos.y)
-          case Direction.LEFT  => new Vector2(pos.x - 48, pos.y)
-          case Direction.UP    => new Vector2(pos.x, pos.y + 48)
-          case Direction.DOWN  => new Vector2(pos.x, pos.y - 48)
-          case _               => pos
-        }
-        if(mapManager.isWalkable(mapManager.getNextCell(pos, dir))) neighborsArr += ((dir, newPos))
-      }
-      neighborsArr
-    }
-
-    if(Math.abs(npc.getPosition.x - hero.getPosition.x) > 48
-      || Math.abs(npc.getPosition.y - hero.getPosition.y) > 48) {
-
-      if(Math.abs(npc.getPosition.x - hero.getPosition.x) <= npc.visionDistance*48
-        && Math.abs(npc.getPosition.y - hero.getPosition.y) <= npc.visionDistance*48) {
-
-        val npcNeighbors = neighbors(npc.getPosition)
-        // sorted directions by smallest heuristic distance
-        val sorted = npcNeighbors.sortBy { case (_, pos) => heuristicDist(pos) }
-        // Prevent backtracking: don't go to the position we just came from
-        val direction = sorted.find { case (_, pos) => pos.x != npc.getLastPosition.x || pos.y != npc.getLastPosition.y }
-        if(direction.isDefined) npc.addMoveToPlayer(direction.get._1)
-      }
-    }*/
-
     if(Math.abs(npc.getPosition.x - hero.getPosition.x) > 48
       || Math.abs(npc.getPosition.y - hero.getPosition.y) > 48) {
 
