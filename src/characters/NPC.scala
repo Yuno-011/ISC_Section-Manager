@@ -5,14 +5,21 @@ import com.badlogic.gdx.math.Vector2
 import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
-class NPC(initialPos: Vector2) extends MovingEntity("data/images/mudry_sheet48.png", initialPos) {
+class NPC(spritesheetPath: String, initialPos: Vector2) extends MovingEntity(spritesheetPath, initialPos) {
 
   private var timeSinceLastMove: Double = 0.0
+  private var timeNextMove: Double = -1
   private val moveTimeInterval: (Double, Double) = (1.0, 3.0) // seconds
   private val moveDistInterval: (Int, Int) = (1, 3)
-  private val movesToDo: ArrayBuffer[Direction.Direction] = ArrayBuffer()
-  private var timeNextMove: Double = -1
+  protected val movesToDo: ArrayBuffer[Direction.Direction] = ArrayBuffer()
 
+  protected var POINT_VALUE: Int = -1
+
+  /**
+   * Defines the next moves of the NPC
+   * @param elapsedTime - the time that has passed since the last call
+   * @return true if the NPC must move now
+   */
   def mustMoveNow(elapsedTime: Double): Boolean = {
     if(isAlive) {
       if (movesToDo.nonEmpty) return true
@@ -39,7 +46,9 @@ class NPC(initialPos: Vector2) extends MovingEntity("data/images/mudry_sheet48.p
     move
   }
 
-  def this(x: Int, y: Int) = {
-    this(new Vector2(x*48, y*48))
+  def killPoints: Int = POINT_VALUE
+
+  def this(spritesheetPath: String, x: Int, y: Int) = {
+    this(spritesheetPath, new Vector2(x*48, y*48))
   }
 }

@@ -1,9 +1,9 @@
 import ch.hevs.gdx2d.desktop.PortableApplication
 import ch.hevs.gdx2d.lib.GdxGraphics
-import characters.{Hero, NPC}
+import characters.{Evil, Hero, NPC, Student, Teacher}
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
-import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapRenderer, TiledMapTile, TiledMapTileLayer, TmxMapLoader}
+import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapRenderer, TiledMapTileLayer, TmxMapLoader}
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import com.badlogic.gdx.math.Vector2
 
@@ -22,9 +22,10 @@ class Game extends PortableApplication(1080, 1080) {
 
   private var mapManager: MapManager = null
   private var movManager: MovementManager = null
+  private var atkManager: AttackManager = null
 
   private var hero: Hero = null
-  private val npcs: ArrayBuffer[NPC] = ArrayBuffer()
+  private var npcs: ArrayBuffer[NPC] = ArrayBuffer()
 
   private val keyStatus: util.Map[Integer, Boolean] = new util.TreeMap[Integer, Boolean]
 
@@ -33,10 +34,6 @@ class Game extends PortableApplication(1080, 1080) {
     screenWidth = getWindowWidth
     screenHeight = getWindowHeight
 
-    hero = new Hero(19,13)
-    for(_ <- 0 until 5) {
-      npcs += new NPC(19, 13)
-    }
 
     tiledMap = new TmxMapLoader().load("data/map_data/maps/classroom.tmx")
     spriteBatch = new SpriteBatch()
@@ -48,6 +45,17 @@ class Game extends PortableApplication(1080, 1080) {
     }
     mapManager = new MapManager(tiledLayers)
     movManager = new MovementManager(mapManager)
+
+    hero = new Hero(0,0)
+    if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
+    else npcs += new Teacher(10, 14) with Evil
+    for(_ <- 0 until 10) {
+      val pos: Vector2 = mapManager.getRandomPos
+      if(Math.random() >= 0.5) npcs += new Student(pos)
+      else npcs += new Student(pos) with Evil
+    }
+
+    atkManager = new AttackManager(hero)
   }
 
   override def onGraphicRender(g: GdxGraphics): Unit = {
@@ -55,7 +63,11 @@ class Game extends PortableApplication(1080, 1080) {
 
     // Manage hero movement
     movManager.manageHero(hero, keyStatus)
-    movManager.manageNPCs(npcs, Gdx.graphics.getDeltaTime)
+    movManager.manageNPCs(npcs, hero, Gdx.graphics.getDeltaTime)
+
+    // Manage attacks
+    atkManager.handleHeroAttack(npcs, keyStatus)
+    npcs = npcs.filter(npc => npc.isAlive)
 
     // zoom and camera
     g.zoom(ZOOM)

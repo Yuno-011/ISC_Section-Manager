@@ -3,6 +3,7 @@ import com.badlogic.gdx.maps.tiled.{TiledMapTile, TiledMapTileLayer}
 import com.badlogic.gdx.math.Vector2
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 class MapManager(private var tiledLayers: ArrayBuffer[TiledMapTileLayer]) {
 
@@ -45,6 +46,16 @@ class MapManager(private var tiledLayers: ArrayBuffer[TiledMapTileLayer]) {
   def getWorldWidth: Float = tiledLayers(0).getWidth * tiledLayers(0).getTileWidth
 
   def getWorldHeight: Float = tiledLayers(0).getHeight * tiledLayers(0).getTileHeight
+
+  def getRandomPos: Vector2 = {
+    var x: Float = 0
+    var y: Float = 0
+    do {
+      x = Math.round(getWorldWidth * Random.nextFloat() / 48) * 48
+      y = Math.round(getWorldHeight * Random.nextFloat() / 48) * 48
+    } while(!isWalkable(getTiles(new Vector2(x,y), 0, 0)))
+    new Vector2(x,y)
+  }
 
   /**
    * Get the "walkable" property of the given tile.
