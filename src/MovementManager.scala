@@ -27,6 +27,10 @@ class MovementManager(private val mapManager: MapManager) {
         hero.turn(goalDirection)  // Face the wall
       }
     }
+    if(hero.codeLaser != null && !hero.codeLaser.isMoving) {
+      if(hero.codeLaser.cellsPassed < hero.getAttackRange) hero.codeLaser.forward()
+      else hero.codeLaser = null
+    }
   }
 
   /**

@@ -53,10 +53,10 @@ class Game extends PortableApplication(1080, 1080) {
     hero = new Hero(19,13)
     if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
     else npcs += new Teacher(10, 14) with Evil
-    for(_ <- 0 until 10) {
+    for(i <- 0 until 10) {
       val pos: Vector2 = mapManager.getRandomPos
-      if(Math.random() >= 0.5) npcs += new Student(pos)
-      else npcs += new Student(pos) with Evil
+      if(i >= 5) npcs += new Student(pos) with Evil
+      else npcs += new Student(pos)
     }
 
     atkManager = new AttackManager(hero)
@@ -84,8 +84,8 @@ class Game extends PortableApplication(1080, 1080) {
           else npcs += new Teacher(10, 14) with Evil
         } else {
           val pos: Vector2 = mapManager.getRandomPos
-          if(Math.random() >= 0.5) npcs += new Student(pos)
-          else npcs += new Student(pos) with Evil
+          if(npcs.count(n => n.isInstanceOf[Evil]) < 5) npcs += new Student(pos) with Evil
+          else npcs += new Student(pos)
         }
       }
     }
@@ -114,6 +114,11 @@ class Game extends PortableApplication(1080, 1080) {
     for(i <- HERO_LAYER until layers.getCount) {
       tiledMapRenderer.renderTileLayer(layers.get(i).asInstanceOf[TiledMapTileLayer])
     }
+    // draw projectile
+    if(hero.codeLaser != null) {
+      hero.codeLaser.animate(Gdx.graphics.getDeltaTime)
+      hero.codeLaser.draw(spriteBatch)
+    }
     // Finish drawing
     spriteBatch.end()
     g.drawString(screenWidth/2-90, screenHeight-220, s"Score: ${hero.score}")
@@ -124,7 +129,10 @@ class Game extends PortableApplication(1080, 1080) {
     val width: Float = hero.getHealthPercent*153
     g.drawFilledRectangle(worldPos.x+41.5f+width/2, worldPos.y-10.5f-25/2, width, 25, 0, Color.SCARLET)
 
-    if(gameOver) g.drawString(worldPos.x+220, worldPos.y-220, "GAME OVER")
+    if(gameOver) {
+      g.drawString(worldPos.x+220, worldPos.y-220, "GAME OVER")
+      g.drawString(worldPos.x+230, worldPos.y-250, s"Score: ${hero.score}")
+    }
   }
 
   // Manage keyboard events

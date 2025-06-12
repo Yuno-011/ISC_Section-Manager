@@ -18,7 +18,7 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
 
   private var textureY = 0
   private var currentFrame = 0
-  private val FRAME_TIME = 0.1f // Duration of each frime
+  private val FRAME_TIME = 0.1f // Duration of each frame
 
   private var dt: Double = 0
   private val nFrames = 4
@@ -43,6 +43,16 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
    * @return Vector2 - the hero's position
    */
   def getPosition: Vector2 = position
+
+  def getDirection: Direction.Direction = {
+    textureY match {
+      case 2 => Direction.RIGHT
+      case 1 => Direction.LEFT
+      case 3 => Direction.UP
+      case 0 => Direction.DOWN
+      case _ => Direction.NULL
+    }
+  }
 
   def getAttackRange: Int = ATTACK_RANGE
 
@@ -78,7 +88,7 @@ class MovingEntity(spritesheetPath: String, initialPos: Vector2) extends Drawabl
       dt -= frameTime
       currentFrame = (currentFrame + 1) % nFrames
       if (currentFrame == 0) {
-        if(isAttacking) textureY = 1
+        if(isAttacking) textureY = 0
         move = false
         atk = false
         lastPosition = new Vector2(newPosition)
