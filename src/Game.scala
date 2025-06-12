@@ -53,10 +53,10 @@ class Game extends PortableApplication(1080, 1080) {
     hero = new Hero(19,13)
     if(Math.random() >= 0.5) npcs += new Teacher(10, 14)
     else npcs += new Teacher(10, 14) with Evil
-    for(_ <- 0 until 10) {
+    for(i <- 0 until 10) {
       val pos: Vector2 = mapManager.getRandomPos
-      if(Math.random() >= 0.5) npcs += new Student(pos)
-      else npcs += new Student(pos) with Evil
+      if(i >= 5) npcs += new Student(pos) with Evil
+      else npcs += new Student(pos)
     }
 
     atkManager = new AttackManager(hero)
@@ -84,8 +84,8 @@ class Game extends PortableApplication(1080, 1080) {
           else npcs += new Teacher(10, 14) with Evil
         } else {
           val pos: Vector2 = mapManager.getRandomPos
-          if(Math.random() >= 0.5) npcs += new Student(pos)
-          else npcs += new Student(pos) with Evil
+          if(npcs.count(n => n.isInstanceOf[Evil]) < 5) npcs += new Student(pos) with Evil
+          else npcs += new Student(pos)
         }
       }
     }

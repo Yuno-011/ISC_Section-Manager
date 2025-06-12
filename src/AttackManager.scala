@@ -8,7 +8,7 @@ class AttackManager(hero: Hero) {
 
   def handleHeroAttack(npcs: ArrayBuffer[NPC], keyStatus: util.Map[Integer, Boolean]): Unit = {
     if((keyStatus.get(Input.Keys.SPACE) || keyStatus.get(Input.Keys.ENTER))
-      && !hero.isMoving) hero.attack()
+      /*&& !hero.isMoving*/) hero.attack()
     if(hero.codeLaser != null) {
       for (npc <- npcs) {
         if((Math.abs(npc.getPosition.x - hero.codeLaser.getPosition.x) <= 24 && npc.getPosition.y == hero.codeLaser.getPosition.y)
